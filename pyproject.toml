@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "elenk"
+version = "0.1.0"
+description = "Open source due-diligence tool for auditing a public GitHub repository before you trust it."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [{ name = "Gabriel Delmelo" }]
+dependencies = [
+    "click>=8.1",
+    "semgrep>=1.45",
+]
+
+[project.scripts]
+elenk = "elenk.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
