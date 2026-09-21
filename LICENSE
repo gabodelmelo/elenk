@@ -19,14 +19,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
-
----
-
-IMPORTANT NOTE ON LICENSE SCOPE:
-
-This MIT license applies to the open-source analysis engine and CLI
-(the `elenk.core` and `elenk.cli` packages). The `elenk.b2b` package
-(premium CLI, licensing, and executive reporting) is distributed in
-this same repository for reference and architecture purposes only,
-and is intended as proprietary code in a commercial product. See
-`LICENSE-B2B.md`.
