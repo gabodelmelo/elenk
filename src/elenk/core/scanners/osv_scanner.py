@@ -51,6 +51,14 @@ class OsvScanner(Scanner):
             str(repo_path),
         ]
 
+    def is_benign_empty_result(self, returncode: int, stderr: str) -> bool:
+        # osv-scanner exits with code 128 (not 0/1) when the target has
+        # no lockfile/manifest it recognizes at all — nothing to check,
+        # not a failure. Its "Starting filesystem walk for root: C:\"
+        # log line on Windows is a cosmetic scalibr quirk (it still
+        # walks the right directory) and can be ignored here.
+        return "no package sources found" in stderr.lower()
+
     def parse_output(self, stdout: str, repo_path: Path) -> List[Finding]:
         if not stdout.strip():
             return []

@@ -1,6 +1,8 @@
 import json
+import subprocess
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 from elenk.core.models import FindingCategory, Severity
 from elenk.core.scanners.gitleaks_scanner import GitleaksScanner
@@ -154,6 +156,42 @@ class TestOsvScanner(unittest.TestCase):
         }
         findings = OsvScanner().parse_output(json.dumps(payload), REPO_PATH)
         self.assertEqual(findings[0].severity, Severity.UNKNOWN)
+
+    def test_recognizes_no_package_sources_message_as_benign(self):
+        scanner = OsvScanner()
+        self.assertTrue(
+            scanner.is_benign_empty_result(128, "No package sources found, --help for usage information.")
+        )
+        self.assertFalse(scanner.is_benign_empty_result(128, "some unrelated failure"))
+
+    def test_run_reports_no_error_when_no_lockfile_present(self):
+        # osv-scanner exits 128 (not 0/1) with this message when the
+        # target has no lockfile/manifest at all — should surface as
+        # zero findings, not a scanner error.
+        stderr = (
+            "Scanning dir /tmp/fake-repo\n"
+            "Starting filesystem walk for root: C:\\\n"
+            "End status: 1 dirs visited, 1 inodes visited, 0 Extract calls, 0.5ms elapsed\n"
+            "No package sources found, --help for usage information.\n"
+        )
+        with patch(
+            "elenk.core.scanners.base.subprocess.run",
+            return_value=subprocess.CompletedProcess(args=["osv-scanner"], returncode=128, stdout="", stderr=stderr),
+        ):
+            outcome = OsvScanner().run(REPO_PATH)
+        self.assertIsNone(outcome.error)
+        self.assertEqual(outcome.findings, [])
+
+    def test_run_still_reports_real_errors(self):
+        with patch(
+            "elenk.core.scanners.base.subprocess.run",
+            return_value=subprocess.CompletedProcess(
+                args=["osv-scanner"], returncode=128, stdout="", stderr="panic: something actually broke"
+            ),
+        ):
+            outcome = OsvScanner().run(REPO_PATH)
+        self.assertIsNotNone(outcome.error)
+        self.assertIn("something actually broke", outcome.error)
 
 
 if __name__ == "__main__":

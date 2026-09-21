@@ -57,6 +57,12 @@ class Scanner(ABC):
             return True
         return bool(self.relevant_ecosystems & ecosystems)
 
+    def is_benign_empty_result(self, returncode: int, stderr: str) -> bool:
+        """Override when a tool signals "nothing here to check" with a
+        non-standard exit code, so that outcome is reported as zero
+        findings instead of a scary-looking error."""
+        return False
+
     @abstractmethod
     def build_command(self, repo_path: Path) -> List[str]:
         """Returns the command (argv list) to run."""
@@ -115,7 +121,8 @@ class Scanner(ABC):
 
         error = None
         if not result.stdout.strip() and result.returncode not in (0, 1):
-            error = (result.stderr or "").strip()[:500] or f"{self.name} exited with code {result.returncode}"
+            if not self.is_benign_empty_result(result.returncode, result.stderr or ""):
+                error = (result.stderr or "").strip()[:500] or f"{self.name} exited with code {result.returncode}"
 
         return ScannerRunOutcome(
             findings=findings,
