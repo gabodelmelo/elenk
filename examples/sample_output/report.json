@@ -1,0 +1,67 @@
+{
+  "repo_url": "https://github.com/octocat/Hello-World",
+  "repo_name": "octocat/Hello-World",
+  "commit_sha": "7fd1a60b01f91b314f59955a4e4d4e80d8edf11d",
+  "detected_ecosystems": [],
+  "started_at": "2026-09-18T16:49:47.427272+00:00",
+  "finished_at": "2026-09-18T16:49:47.427272+00:00",
+  "duration_seconds": 0.0,
+  "summary": {
+    "total_findings": 0,
+    "by_severity": {
+      "critical": 0,
+      "high": 0,
+      "medium": 0,
+      "low": 0,
+      "info": 0,
+      "unknown": 0
+    },
+    "by_tool": {},
+    "by_category": {},
+    "risk_score": 0,
+    "security_score": 100
+  },
+  "scanner_runs": [
+    {
+      "tool": "semgrep",
+      "applicable": true,
+      "available": false,
+      "ran": false,
+      "duration_seconds": 0.0,
+      "finding_count": 0,
+      "skipped_reason": "'semgrep' isn't installed; see the README for install instructions",
+      "error": null
+    },
+    {
+      "tool": "trivy",
+      "applicable": true,
+      "available": false,
+      "ran": false,
+      "duration_seconds": 0.0,
+      "finding_count": 0,
+      "skipped_reason": "'trivy' isn't installed; see the README for install instructions",
+      "error": null
+    },
+    {
+      "tool": "gitleaks",
+      "applicable": true,
+      "available": false,
+      "ran": false,
+      "duration_seconds": 0.0,
+      "finding_count": 0,
+      "skipped_reason": "'gitleaks' isn't installed; see the README for install instructions",
+      "error": null
+    },
+    {
+      "tool": "osv-scanner",
+      "applicable": true,
+      "available": false,
+      "ran": false,
+      "duration_seconds": 0.0,
+      "finding_count": 0,
+      "skipped_reason": "'osv-scanner' isn't installed; see the README for install instructions",
+      "error": null
+    }
+  ],
+  "findings": []
+}

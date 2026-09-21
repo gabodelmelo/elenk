@@ -7,4 +7,3 @@ build/
 dist/
 elenk-report/
 *.log
-.env
